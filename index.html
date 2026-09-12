@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>CCS REPRESENTATIVE TRYOUT</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --neon: #bc13fe;
+            --neon-light: #d83cff;
+            --bg: #050507;
+            --card: #101015;
+            --border: rgba(188, 19, 254, 0.55);
+            --text: #ffffff;
+            --muted: #aaaaaa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, rgba(188, 19, 254, 0.13), transparent 35%),
+                #050507;
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            padding: clamp(20px, 5vw, 45px) 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(188, 19, 254, 0.35);
+            cursor: pointer;
+        }
+
+        header h1 {
+            color: var(--neon);
+            font-size: clamp(25px, 6vw, 52px);
+            font-weight: 900;
+            letter-spacing: clamp(1px, 0.5vw, 4px);
+            text-shadow:
+                0 0 5px var(--neon),
+                0 0 15px rgba(188, 19, 254, 0.8);
+            word-wrap: break-word;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #ddd;
+            font-size: clamp(13px, 2.5vw, 18px);
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: min(1200px, 94%);
+            margin: 0 auto;
+            padding: clamp(20px, 4vw, 45px) 0;
+        }
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            text-align: center;
+            color: var(--neon);
+            font-size: clamp(22px, 4vw, 32px);
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(188, 19, 254, 0.6);
+        }
+
+        /* =========================
+           LANE ROLES
+        ========================= */
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: clamp(10px, 1.5vw, 18px);
+            width: 100%;
+            margin-bottom: 45px;
+        }
+
+        .lane-card {
+            min-width: 0;
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow:
+                0 0 10px rgba(188, 19, 254, 0.18),
+                inset 0 0 15px rgba(188, 19, 254, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .lane-card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 0 15px rgba(188, 19, 254, 0.45),
+                0 0 30px rgba(188, 19, 254, 0.15);
+        }
+
+        .lane-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+            background: #080808;
+        }
+
+        .lane-content {
+            padding: 14px 8px 17px;
+            text-align: center;
+        }
+
+        .lane-content h3 {
+            color: #fff;
+            font-size: clamp(13px, 1.5vw, 19px);
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .lane-content p {
+            color: var(--muted);
+            font-size: clamp(10px, 1.1vw, 14px);
+            line-height: 1.4;
+        }
+
+        /* =========================
+           APPLICATION FORM
+        ========================= */
+
+        .form-box {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: clamp(18px, 4vw, 35px);
+            background: rgba(17, 17, 22, 0.96);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow:
+                0 0 20px rgba(188, 19, 254, 0.15),
+                inset 0 0 20px rgba(188, 19, 254, 0.025);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--neon);
+            font-size: clamp(20px, 4vw, 28px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            color: #ddd;
+            font-weight: 700;
+        }
+
+        .optional {
+            color: #888;
+            font-size: 11px;
+            font-weight: normal;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            outline: none;
+            background: #09090c;
+            color: #fff;
+            font-size: 15px;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--neon);
+            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            min-height: 52px;
+            margin-top: 22px;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 9px;
+            background: var(--neon);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.35);
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--neon-light);
+            box-shadow: 0 0 25px rgba(188, 19, 254, 0.6);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        /* =====================================================
+           TRYOUT INFORMATION
+           ANIMATED RED / GREEN / YELLOW BORDER
+        ===================================================== */
+
+        .tryout-info-wrapper {
+            position: relative;
+            max-width: 1100px;
+            margin: 55px auto 20px;
+            padding: 3px;
+            border-radius: 20px;
+            overflow: hidden;
+
+            background: conic-gradient(
+                from 0deg,
+                #ff0000,
+                #ffcc00,
+                #00ff55,
+                #00ffcc,
+                #00ff55,
+                #ffcc00,
+                #ff0000
+            );
+
+            animation: borderRotate 5s linear infinite;
+
+            box-shadow:
+                0 0 10px rgba(255, 0, 0, 0.5),
+                0 0 20px rgba(0, 255, 80, 0.25),
+                0 0 30px rgba(255, 220, 0, 0.2);
+        }
+
+        /* Moving light layer */
+
+        .tryout-info-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(
+                transparent 0deg,
+                transparent 260deg,
+                #ff0000 285deg,
+                #ffcc00 300deg,
+                #00ff55 315deg,
+                transparent 335deg,
+                transparent 360deg
+            );
+
+            animation: borderSpin 2.5s linear infinite;
+            z-index: 0;
+        }
+
+        .tryout-info {
+            position: relative;
+            z-index: 1;
+            background:
+                linear-gradient(
+                    145deg,
+                    #111116,
+                    #08080b 50%,
+                    #111116
+                );
+            border-radius: 17px;
+            padding: clamp(22px, 5vw, 45px);
+        }
+
+        @keyframes borderRotate {
+            0% {
+                filter:
+                    hue-rotate(0deg)
+                    drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+            }
+
+            50% {
+                filter:
+                    hue-rotate(20deg)
+                    drop-shadow(0 0 8px rgba(0, 255, 80, 0.6));
+            }
+
+            100% {
+                filter:
+                    hue-rotate(0deg)
+                    drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+            }
+        }
+
+        @keyframes borderSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           TRYOUT CONTENT
+        ========================= */
+
+        .info-title {
+            color: #fff;
+            font-size: clamp(22px, 4vw, 32px);
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.15);
+        }
+
+        .info-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            margin: 12px auto 0;
+            background: linear-gradient(
+                90deg,
+                #ff0000,
+                #ffcc00,
+                #00ff55
+            );
+            border-radius: 10px;
+            box-shadow:
+                0 0 8px rgba(255, 0, 0, 0.5),
+                0 0 8px rgba(0, 255, 80, 0.5);
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .info-list li {
+            position: relative;
+            padding-left: 25px;
+            color: #d8d8d8;
+            font-size: clamp(13px, 1.5vw, 16px);
+            line-height: 1.65;
+        }
+
+        .info-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffcc00;
+            box-shadow:
+                0 0 5px #ffcc00,
+                0 0 10px rgba(255, 204, 0, 0.7);
+        }
+
+        .info-list strong {
+            color: #fff;
+        }
+
+        /* =========================
+           SCOUT SECTION
+        ========================= */
+
+        .scout-section {
+            margin-top: 45px;
+            padding-top: 35px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .scout-title {
+            color: #fff;
+            font-size: clamp(20px, 3.5vw, 28px);
+            margin-bottom: 20px;
+        }
+
+        .scout-message {
+            border-left: 3px solid #00ff55;
+            padding: 18px 20px;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0, 255, 85, 0.06),
+                    transparent
+                );
+            border-radius: 0 10px 10px 0;
+        }
+
+        .scout-message-title {
+            color: #00ff66;
+            font-size: clamp(15px, 2vw, 18px);
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(0, 255, 85, 0.45);
+        }
+
+        .scout-message p {
+            color: #d2d2d2;
+            font-size: clamp(13px, 1.5vw, 16px);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .scout-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #fff;
+            font-weight: 800;
+        }
+
+        /* =========================
+           ADMIN DASHBOARD
+        ========================= */
+
+        #adminDashboard {
+            display: none;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-header h2 {
+            color: var(--neon);
+            font-size: clamp(22px, 4vw, 32px);
+        }
+
+        .back-btn {
+            padding: 10px 18px;
+            border: 1px solid var(--neon);
+            border-radius: 7px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .back-btn:hover {
+            background: var(--neon);
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #0e0e12;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1000px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #29292e;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #17171d;
+            color: var(--neon);
+            font-size: 13px;
+        }
+
+        td {
+            color: #ddd;
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: rgba(188, 19, 254, 0.04);
+        }
+
+        .admin-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 18px;
+        }
+
+        .clear-btn {
+            padding: 11px 18px;
+            border: 1px solid #ff4444;
+            border-radius: 7px;
+            background: transparent;
+            color: #ff5555;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .clear-btn:hover {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 1000px) {
+            .lane-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .lane-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .back-btn {
+                width: 100%;
+            }
+
+            .tryout-info-wrapper {
+                margin-top: 40px;
+                border-radius: 16px;
+            }
+
+            .tryout-info {
+                border-radius: 13px;
+            }
+
+            .scout-message {
+                padding: 15px;
+            }
+        }
+
+        /* =========================
+           SMALL PHONE
+        ========================= */
+
+        @media (max-width: 420px) {
+
+            .container {
+                width: 92%;
+            }
+
+            .lane-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lane-image {
+                aspect-ratio: 16 / 8;
+            }
+
+            .form-box {
+                padding: 16px;
+            }
+
+            input,
+            select {
+                min-height: 46px;
+                font-size: 14px;
+            }
+
+            .submit-btn {
+                min-height: 50px;
+            }
+
+            .tryout-info {
+                padding: 20px 16px;
+            }
+
+            .info-list li {
+                padding-left: 20px;
+            }
+        }
+
+        /* =========================
+           VERY SMALL SCREEN
+        ========================= */
+
+        @media (max-width: 320px) {
+
+            header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .lane-content h3 {
+                font-size: 14px;
+            }
+
+            .lane-content p {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header onclick="openAdmin()">
+        <h1>CCS REPRESENTATIVE TRYOUT</h1>
+        <p>Representative Tryout Open</p>
+    </header>
+
+
+    <!-- =========================
+         MAIN PAGE
+    ========================= -->
+
+    <main id="mainPage" class="container">
+
+        <!-- =========================
+             LANE ROLES
+        ========================= -->
+
+        <h2 class="section-title">LANE ROLES</h2>
+
+        <div class="lane-grid">
+
+            <div class="lane-card">
+                <img
+                    class="lane-image"
+                    src="jungler.png"
+                    alt="Jungler"
+                >
+
+                <div class="lane-content">
+                    <h3>JUNGLER</h3>
+                    <p>Objective Control</p>
+                </div>
+            </div>
+
+
+            <div class="lane-card">
+                <img
+                    class="lane-image"
+                    src="gold.png"
+                    alt="Gold Lane"
+                >
+
+                <div class="lane-content">
+                    <h3>GOLD LANE</h3>
+                    <p>Main Damage</p>
+                </div>
+            </div>
+
+
+            <div class="lane-card">
+                <img
+                    class="lane-image"
+                    src="exp.png"
+                    alt="EXP Lane"
+                >
+
+                <div class="lane-content">
+                    <h3>EXP LANE</h3>
+                    <p>Frontline / Pressure</p>
+                </div>
+            </div>
+
+
+            <div class="lane-card">
+                <img
+                    class="lane-image"
+                    src="mid.png"
+                    alt="Mid Lane"
+                >
+
+                <div class="lane-content">
+                    <h3>MID LANE</h3>
+                    <p>Magic Damage / Control</p>
+                </div>
+            </div>
+
+
+            <div class="lane-card">
+                <img
+                    class="lane-image"
+                    src="roam.png"
+                    alt="Roam"
+                >
+
+                <div class="lane-content">
+                    <h3>ROAM</h3>
+                    <p>Vision / Support</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             APPLICATION FORM
+        ========================= -->
+
+        <div class="form-box">
+
+            <h2 class="form-title">
+                REPRESENTATIVE TRYOUT FORM
+            </h2>
+
+            <form id="applicationForm">
+
+                <div class="form-grid">
+
+                    <!-- IGN -->
+
+                    <div class="form-group">
+
+                        <label for="ign">
+                            IGN
+                        </label>
+
+                        <input
+                            type="text"
+                            id="ign"
+                            placeholder="Enter your IGN"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- GAME ID -->
+
+                    <div class="form-group">
+
+                        <label for="gameId">
+                            Game ID
+                        </label>
+
+                        <input
+                            type="number"
+                            id="gameId"
+                            placeholder="Enter your Game ID"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PRIMARY ROLE -->
+
+                    <div class="form-group">
+
+                        <label for="role">
+                            Primary Role
+                        </label>
+
+                        <select
+                            id="role"
+                            required
+                        >
+
+                            <option value="">
+                                Select your primary role
+                            </option>
+
+                            <option value="Jungler">
+                                Jungler
+                            </option>
+
+                            <option value="Gold Lane">
+                                Gold Lane
+                            </option>
+
+                            <option value="EXP Lane">
+                                EXP Lane
+                            </option>
+
+                            <option value="Mid Lane">
+                                Mid Lane
+                            </option>
+
+                            <option value="Roam">
+                                Roam
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SECONDARY ROLE -->
+
+                    <div class="form-group">
+
+                        <label for="secondaryRole">
+                            Secondary Role
+                            <span class="optional">
+                                (Optional)
+                            </span>
+                        </label>
+
+                        <select id="secondaryRole">
+
+                            <option value="">
+                                Select your secondary role
+                            </option>
+
+                            <option value="Jungler">
+                                Jungler
+                            </option>
+
+                            <option value="Gold Lane">
+                                Gold Lane
+                            </option>
+
+                            <option value="EXP Lane">
+                                EXP Lane
+                            </option>
+
+                            <option value="Mid Lane">
+                                Mid Lane
+                            </option>
+
+                            <option value="Roam">
+                                Roam
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CURRENT RANK -->
+
+                    <div class="form-group">
+
+                        <label for="currentRank">
+                            Current Rank
+                        </label>
+
+                        <select
+                            id="currentRank"
+                            required
+                            onchange="checkImmortal(this, 'currentStarsBox')"
+                        >
+
+                            <option value="">
+                                Select current rank
+                            </option>
+
+                            <option value="Warrior">
+                                Warrior
+                            </option>
+
+                            <option value="Elite">
+                                Elite
+                            </option>
+
+                            <option value="Master">
+                                Master
+                            </option>
+
+                            <option value="Grandmaster">
+                                Grandmaster
+                            </option>
+
+                            <option value="Epic">
+                                Epic
+                            </option>
+
+                            <option value="Legend">
+                                Legend
+                            </option>
+
+                            <option value="Mythic">
+                                Mythic
+                            </option>
+
+                            <option value="Mythical Honor">
+                                Mythical Honor
+                            </option>
+
+                            <option value="Mythical Glory">
+                                Mythical Glory
+                            </option>
+
+                            <option value="Mythical Immortal">
+                                Mythical Immortal
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CURRENT STARS -->
+
+                    <div
+                        class="form-group"
+                        id="currentStarsBox"
+                        style="display:none;"
+                    >
+
+                        <label for="currentStars">
+                            Current Stars
+                        </label>
+
+                        <input
+                            type="number"
+                            id="currentStars"
+                            min="1"
+                            placeholder="Enter your stars"
+                        >
+
+                    </div>
+
+
+                    <!-- HIGHEST RANK -->
+
+                    <div class="form-group">
+
+                        <label for="highestRank">
+                            Highest Rank
+                        </label>
+
+                        <select
+                            id="highestRank"
+                            required
+                            onchange="checkImmortal(this, 'highestStarsBox')"
+                        >
+
+                            <option value="">
+                                Select highest rank
+                            </option>
+
+                            <option value="Warrior">
+                                Warrior
+                            </option>
+
+                            <option value="Elite">
+                                Elite
+                            </option>
+
+                            <option value="Master">
+                                Master
+                            </option>
+
+                            <option value="Grandmaster">
+                                Grandmaster
+                            </option>
+
+                            <option value="Epic">
+                                Epic
+                            </option>
+
+                            <option value="Legend">
+                                Legend
+                            </option>
+
+                            <option value="Mythic">
+                                Mythic
+                            </option>
+
+                            <option value="Mythical Honor">
+                                Mythical Honor
+                            </option>
+
+                            <option value="Mythical Glory">
+                                Mythical Glory
+                            </option>
+
+                            <option value="Mythical Immortal">
+                                Mythical Immortal
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- HIGHEST STARS -->
+
+                    <div
+                        class="form-group"
+                        id="highestStarsBox"
+                        style="display:none;"
+                    >
+
+                        <label for="highestStars">
+                            Highest Stars
+                        </label>
+
+                        <input
+                            type="number"
+                            id="highestStars"
+                            min="1"
+                            placeholder="Enter your highest stars"
+                        >
+
+                    </div>
+
+
+                    <!-- WINRATE -->
+
+                    <div class="form-group">
+
+                        <label for="winrate">
+                            Winrate
+                        </label>
+
+                        <select
+                            id="winrate"
+                            required
+                        >
+
+                            <option value="">
+                                Select winrate
+                            </option>
+
+                            <option value="Below 40%">
+                                Below 40%
+                            </option>
+
+                            <option value="40% - 49%">
+                                40% - 49%
+                            </option>
+
+                            <option value="50% - 59%">
+                                50% - 59%
+                            </option>
+
+                            <option value="60% - 69%">
+                                60% - 69%
+                            </option>
+
+                            <option value="70% - 79%">
+                                70% - 79%
+                            </option>
+
+                            <option value="80%+">
+                                80%+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CONTACT -->
+
+                    <div class="form-group">
+
+                        <label for="contact">
+                            Contact
+                        </label>
+
+                        <input
+                            type="text"
+                            id="contact"
+                            placeholder="Paste your Facebook link"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="submitBtn"
+                >
+                    SUBMIT APPLICATION
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- =====================================================
+             HOW THE TRYOUT WORKS
+        ===================================================== -->
+
+        <div class="tryout-info-wrapper">
+
+            <div class="tryout-info">
+
+                <h2 class="info-title">
+                    How the Tryout Works
+                </h2>
+
+
+                <ul class="info-list">
+
+                    <li>
+                        <strong>Rank-Based Tiers:</strong>
+                        High-rank players and lower-rank players are
+                        split into separate matches so everyone competes
+                        on an equal playing field.
+                    </li>
+
+
+                    <li>
+                        <strong>Best-of-1 Knockout:</strong>
+                        Your temporary team must win a single match
+                        to advance, but losing does not mean you are
+                        automatically out.
+                    </li>
+
+
+                    <li>
+                        <strong>The Lifeline Rule:</strong>
+                        Exceptional individual players on a losing
+                        team can be rescued <strong>only by the official
+                        scouts</strong> and given a second chance on a
+                        new team.
+                    </li>
+
+
+                    <li>
+                        <strong>The Carried Filter:</strong>
+                        Winning does not guarantee your safety, as
+                        underperforming or silent players can be benched
+                        or swapped out for the next round.
+                    </li>
+
+
+                    <li>
+                        <strong>Mandatory Communication:</strong>
+                        You must open your mic to shotcall and give info,
+                        as staying completely silent is an instant
+                        disqualification.
+                    </li>
+
+                </ul>
+
+
+                <!-- =========================
+                     OFFICIAL SCOUT STANDARDS
+                ========================= -->
+
+                <div class="scout-section">
+
+                    <h2 class="scout-title">
+                        Official Scout Standards
+                    </h2>
+
+
+                    <div class="scout-message">
+
+                        <div class="scout-message-title">
+                            📢 A Message from the Scouting Committee:
+                        </div>
+
+
+                        <p>
+                            Your matches will be strictly monitored
+                            by a dedicated scouting team composed of
+                            highly experienced,
+                            <span class="highlight">
+                                Mythical Immortal amateur
+                                tournament players with global badges
+                            </span>.
+                        </p>
+
+
+                        <p>
+                            Please note that
+                            <span class="highlight">
+                                only the scouts hold the absolute power
+                                to grant you a Second Chance Lifeline
+                            </span>.
+                            To ensure completely unbiased and fair
+                            judgment, you may be evaluated by a
+                            <span class="highlight">
+                                different scout player for each match
+                            </span>,
+                            each an expert in their specific role.
+                        </p>
+
+
+                        <p>
+                            They aren't just looking at your KDA —
+                            they are looking for
+                            <span class="highlight">
+                                advanced item counter-building,
+                                map awareness, draft flexibility,
+                                and positive leadership.
+                            </span>
+                            Show them you can adapt and communicate,
+                            even if your team is losing.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         ADMIN DASHBOARD
+    ===================================================== -->
+
+    <main
+        id="adminDashboard"
+        class="container"
+    >
+
+        <div class="admin-header">
+
+            <h2>
+                ADMIN DASHBOARD
+            </h2>
+
+            <button
+                class="back-btn"
+                onclick="closeAdmin()"
+            >
+                ← Back to Form
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Timestamp</th>
+                        <th>IGN</th>
+                        <th>Game ID</th>
+                        <th>Primary Role</th>
+                        <th>Secondary Role</th>
+                        <th>Current Rank</th>
+                        <th>Highest Rank</th>
+                        <th>Winrate</th>
+                        <th>Contact</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="applicationsTable">
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="loading"
+                        >
+                            Loading applications...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="admin-actions">
+
+            <button
+                class="clear-btn"
+                onclick="clearAll()"
+            >
+                CLEAR ALL SUBMISSIONS
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        CCS Representative Tryout
+(Made by: Christian Jun Decenan)
+    </footer>
+
+
+    <script>
+
+        /* =========================
+           GOOGLE APPS SCRIPT
+        ========================= */
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCN-H9Z43B9woDujZtEKgBfFNWgLlES5TznVhIBDJ6hddNd2i5WrNfdPfPEmVxsqWr/exec";
+
+
+        /* =========================
+           ADMIN PASSWORD
+        ========================= */
+        const ADMIN_PASSWORD = "MCXP2026";
+
+
+        /* =========================
+           IMMORTAL STARS
+        ========================= */
+        function checkImmortal(select, boxId) {
+
+            const box =
+                document.getElementById(boxId);
+
+            if (select.value === "Mythical Immortal") {
+
+                box.style.display = "block";
+
+            } else {
+
+                box.style.display = "none";
+
+            }
+
+        }
+
+
+        /* =========================
+           FORM SUBMISSION
+        ========================= */
+        document
+            .getElementById("applicationForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+                    const submitBtn =
+                        document.getElementById("submitBtn");
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "SUBMITTING...";
+
+                    // If they chose Mythical Immortal, append the stars to the rank text string
+                    let currentRankValue = document.getElementById("currentRank").value;
+                    if (currentRankValue === "Mythical Immortal") {
+                        const cStars = document.getElementById("currentStars").value.trim();
+                        if (cStars) {
+                            currentRankValue += " (" + cStars + " Stars)";
+                        }
+                    }
+
+                    let highestRankValue = document.getElementById("highestRank").value;
+                    if (highestRankValue === "Mythical Immortal") {
+                        const hStars = document.getElementById("highestStars").value.trim();
+                        if (hStars) {
+                            highestRankValue += " (" + hStars + " Stars)";
+                        }
+                    }
+
+                    // FIXED: Key property mapped explicitly to lowercase 'secondrole' to align with Google Apps Script doPost variables
+                    const player = {
+                        ign: document.getElementById("ign").value.trim(),
+                        gameId: document.getElementById("gameId").value.trim(),
+                        role: document.getElementById("role").value,
+                        secondrole: document.getElementById("secondaryRole").value,
+                        currentRank: currentRankValue,
+                        highestRank: highestRankValue,
+                        winrate: document.getElementById("winrate").value,
+                        contact: document.getElementById("contact").value.trim()
+                    };
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                WEB_APP_URL,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "text/plain;charset=utf-8"
+                                    },
+
+                                    body:
+                                        JSON.stringify(player)
+                                }
+                            );
+
+
+                        const result =
+                            await response.json();
+
+
+                        if (
+                            result.success === true ||
+                            result.status === "success"
+                        ) {
+
+                            alert(
+                                "Application submitted successfully!"
+                            );
+
+
+                            document
+                                .getElementById(
+                                    "applicationForm"
+                                )
+                                .reset();
+
+
+                            document
+                                .getElementById(
+                                    "currentStarsBox"
+                                )
+                                .style.display = "none";
+
+
+                            document
+                                .getElementById(
+                                    "highestStarsBox"
+                                )
+                                .style.display = "none";
+
+                        } else {
+
+                            alert(
+                                result.message ||
+                                "Something went wrong. Please try again."
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(error);
+
+
+                        alert(
+                            "Unable to submit application. Please check your internet connection."
+                        );
+
+                    }
+
+
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "SUBMIT APPLICATION";
+
+                }
+            );
+
+
+        /* =========================
+           OPEN ADMIN
+        ========================= */
+        function openAdmin() {
+
+            const password =
+                prompt("Enter admin password:");
+
+
+            if (password !== ADMIN_PASSWORD) {
+
+                if (password !== null) {
+
+                    alert(
+                        "Incorrect password."
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            document
+                .getElementById("mainPage")
+                .style.display = "none";
+
+
+            document
+                .getElementById("adminDashboard")
+                .style.display = "block";
+
+
+            loadApplications();
+
+        }
+
+
+        /* =========================
+           CLOSE ADMIN
+        ========================= */
+        function closeAdmin() {
+
+            document
+                .getElementById("adminDashboard")
+                .style.display = "none";
+
+
+            document
+                .getElementById("mainPage")
+                .style.display = "block";
+
+        }
+
+
+        /* =========================
+           LOAD APPLICATIONS
+        ========================= */
+        async function loadApplications() {
+
+            const table =
+                document.getElementById(
+                    "applicationsTable"
+                );
+
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="9" class="loading">
+                        Loading applications...
+                    </td>
+                </tr>
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(WEB_APP_URL);
+
+
+                const data =
+                    await response.json();
+
+
+                table.innerHTML = "";
+
+
+                if (
+                    !data ||
+                    data.length === 0
+                ) {
+
+                    table.innerHTML = `
+                        <tr>
+                            <td colspan="9" class="loading">
+                                No applications yet.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+
+                }
+
+
+                data.forEach(function(rowData) {
+
+                    const tr =
+                        document.createElement("tr");
+
+                    const values = [
+                        rowData[0],
+                        rowData[1],
+                        rowData[2],
+                        rowData[3],
+                        rowData[4],
+                        rowData[5],
+                        rowData[6],
+                        rowData[7],
+                        rowData[8]
+                    ];
+
+
+                    values.forEach(function(value) {
+
+                        const td =
+                            document.createElement("td");
+
+
+                        td.textContent =
+                            value ?? "";
+
+
+                        tr.appendChild(td);
+
+                    });
+
+
+                    table.appendChild(tr);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="loading">
+                            Failed to load applications.
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+
+        /* =========================
+           ADDED: FUNCTIONAL CLEAR ALL
+        ========================= */
+        async function clearAll() {
+            if (!confirm("CRITICAL WARNING:\n\nAre you absolutely sure you want to permanently clear ALL entries from the Google Sheet? This action cannot be undone.")) {
+                return;
+            }
+
+            const confirmPassword = prompt("For safety, please re-type the admin password to execute deletion:");
+            if (confirmPassword !== ADMIN_PASSWORD) {
+                if (confirmPassword !== null) alert("Deactivated. Incorrect password.");
+                return;
+            }
+
+            const table = document.getElementById("applicationsTable");
+            table.innerHTML = `<tr><td colspan="9" class="loading">Processing spreadsheet wipe... Please do not close the window.</td></tr>`;
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({ action: "clear" })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    alert("Success: " + (result.message || "Sheet records wiped out."));
+                    loadApplications(); 
+                } else {
+                    alert("Error: " + (result.message || "Failed to drop records."));
+                    loadApplications();
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Network communication error. Check your connection or deployment version status.");
+                loadApplications();
+            }
+        }
+
+    </script>
+
+</body>
+</html>
