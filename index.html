@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<script>
+    // Overwrite the entire page immediately to lock it down
+    document.addEventListener("DOMContentLoaded", function() {
+        document.body.innerHTML = `
+            <div style="
+                display: flex; 
+                flex-direction: column;
+                justify-content: center; 
+                align-items: center; 
+                height: 100vh; 
+                background-color: #121212; 
+                color: #ffffff; 
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 20px;
+            ">
+                <h1 style="font-size: 3rem; color: #ff4d4d; margin-bottom: 10px;">REGISTRATION CLOSED</h1>
+                <p style="font-size: 1.2rem; color: #cccccc;">The MLBB registration form is no longer accepting responses.</p>
+            </div>
+        `;
+    });
+</script>
+
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     
